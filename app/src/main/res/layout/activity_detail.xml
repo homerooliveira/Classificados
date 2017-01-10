@@ -36,16 +36,35 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_buy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_buy"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="favor"
         android:text="@string/btn_favor"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_buy"
+            android:text="@string/total_label"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/btn_buy"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
