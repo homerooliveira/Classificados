@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Classificados</string>
+    <string name="btn_buy">Comprar</string>
+    <string name="btn_favor">Favoritar</string>
+</resources>
