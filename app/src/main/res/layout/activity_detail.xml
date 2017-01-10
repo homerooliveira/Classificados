@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_height"
         android:background="@color/defaultImageBack"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
