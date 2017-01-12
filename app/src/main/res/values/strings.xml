@@ -7,4 +7,5 @@
     <string name="list_activity_title">Classificados</string>
     <string name="filter_activity_title">Filter</string>
     <string name="detail_activity_title">Detail</string>
+    <string name="change_view">Change view</string>
 </resources>
