@@ -3,6 +3,9 @@ package com.oliveira.classificados.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,8 +107,34 @@ public class ListActivity extends BaseActivity {
                 mRvList.getAdapter().notifyItemRangeChanged(0, mRvList.getAdapter().getItemCount());
                 break;
 
+            case R.id.action_toast:
+                Toast.makeText(this, R.string.show_toast, Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.action_snackbar:
+                final Snackbar snackbar = Snackbar.make(
+                        mToolbar,
+                        R.string.show_snackbar,
+                        Snackbar.LENGTH_INDEFINITE);
+
+                snackbar.setAction(R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDialog();
+                    }
+                }).show();
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.app_name)
+                .setMessage(R.string.my_mensage)
+                .setPositiveButton(R.string.ok, null)
+                .show();
     }
 }
