@@ -10,8 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.ListActivity"
-            android:screenOrientation="portrait">
+            android:name=".activity.ListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -19,12 +18,10 @@
         </activity>
 
         <activity
-            android:name=".activity.DetailActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".activity.DetailActivity"/>
 
         <activity
-            android:name=".activity.FilterActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".activity.FilterActivity"/>
 
     </application>
 

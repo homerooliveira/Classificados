@@ -131,7 +131,7 @@ public class ListActivity extends BaseActivity {
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name)
                 .setMessage(R.string.my_mensage)
                 .setPositiveButton(R.string.ok, null)
