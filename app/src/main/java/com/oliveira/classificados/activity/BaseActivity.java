@@ -2,13 +2,18 @@ package com.oliveira.classificados.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import com.oliveira.classificados.R;
 
 
 public class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
+    protected Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,12 @@ public class BaseActivity extends AppCompatActivity {
 //        Log.w(TAG, "Warnning");
 //        Log.e(TAG, "Error" );
 
+    }
+
+    protected void setpToolbar(@StringRes int title) {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
     }
 
     protected SharedPreferences getPref() {

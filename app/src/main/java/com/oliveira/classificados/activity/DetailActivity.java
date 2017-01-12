@@ -26,6 +26,8 @@ public class DetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
+        setpToolbar(R.string.detail_activity_title);
+
         init();
 
         final Intent intent = getIntent();

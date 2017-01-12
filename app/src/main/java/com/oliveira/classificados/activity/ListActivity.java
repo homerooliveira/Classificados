@@ -23,6 +23,7 @@ public class ListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activiy_list);
+        setpToolbar(R.string.list_activity_title);
         init();
 
         final List<ItemAd> items = new ArrayList<>();

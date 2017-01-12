@@ -4,4 +4,7 @@
     <string name="btn_favor">Favor</string>
     <string name="total_label">Total: $ %s</string>
     <string name="filter">Filter</string>
+    <string name="list_activity_title">Classificados</string>
+    <string name="filter_activity_title">Filter</string>
+    <string name="detail_activity_title">Detail</string>
 </resources>

@@ -23,7 +23,9 @@ public class FilterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_filter);
+        setpToolbar(R.string.filter_activity_title);
         init();
+
         List<Category> items = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             final Category category = new Category(String.valueOf(i), String.format("Categoria %s", i));
