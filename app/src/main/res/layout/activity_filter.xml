@@ -11,4 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <!-- Se tiver id o android salva o conteudo no caso é o texto .-->
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="save"
+        android:text="@string/save"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="show"
+        android:text="@string/show"/>
+
+
 </LinearLayout>

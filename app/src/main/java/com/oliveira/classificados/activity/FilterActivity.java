@@ -3,8 +3,11 @@ package com.oliveira.classificados.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.Category;
@@ -16,7 +19,7 @@ public class FilterActivity extends BaseActivity {
 
     public static final String CATEGORY_KEY = "CATEGORY_KEY";
     private Spinner mSpCategory;
-
+    private String mText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +72,28 @@ public class FilterActivity extends BaseActivity {
         setResult(RESULT_OK, intent);
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("MY_KEY", mText);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mText = savedInstanceState.getString("MY_KEY");
+    }
+
+    public void show(View view) {
+        Toast.makeText(this, mText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void save(View view) {
+        mText = "Meu Texto";
     }
 }
