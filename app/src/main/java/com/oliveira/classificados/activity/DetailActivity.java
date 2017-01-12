@@ -11,8 +11,6 @@ import android.widget.Toast;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.ItemAd;
 
-import java.io.Serializable;
-
 public class DetailActivity extends BaseActivity {
 
     public static final String ITEM_KEY = "ITEM_KEY";
@@ -26,7 +24,7 @@ public class DetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
-        setpToolbar(R.string.detail_activity_title);
+        setupToolbar(R.string.detail_activity_title);
 
         init();
 

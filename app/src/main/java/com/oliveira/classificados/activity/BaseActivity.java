@@ -6,6 +6,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.oliveira.classificados.R;
 
@@ -26,10 +27,22 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void setpToolbar(@StringRes int title) {
+    protected void setupToolbar(@StringRes int title) {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     protected SharedPreferences getPref() {

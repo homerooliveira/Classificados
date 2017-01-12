@@ -23,7 +23,7 @@ public class FilterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_filter);
-        setpToolbar(R.string.filter_activity_title);
+        setupToolbar(R.string.filter_activity_title);
         init();
 
         List<Category> items = new ArrayList<>();

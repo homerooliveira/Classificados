@@ -3,7 +3,6 @@ package com.oliveira.classificados.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -28,7 +27,8 @@ public class ListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activiy_list);
-        setpToolbar(R.string.list_activity_title);
+        setupToolbar(R.string.list_activity_title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         init();
 
         final List<ItemAd> items = new ArrayList<>();
@@ -79,6 +79,7 @@ public class ListActivity extends BaseActivity {
 
                 mRvList.getAdapter().notifyItemRangeChanged(0, mRvList.getAdapter().getItemCount());
                 break;
+
         }
 
         return super.onOptionsItemSelected(item);
