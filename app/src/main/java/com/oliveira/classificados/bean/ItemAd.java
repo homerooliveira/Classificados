@@ -1,7 +1,9 @@
-package com.oliveira.classificados;
+package com.oliveira.classificados.bean;
 
 
-public class ItemAd {
+import java.io.Serializable;
+
+public class ItemAd implements Serializable {
 
     private String mImage;
     private String mTitle;

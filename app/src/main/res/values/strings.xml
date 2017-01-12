@@ -3,4 +3,5 @@
     <string name="btn_buy">Buy</string>
     <string name="btn_favor">Favor</string>
     <string name="total_label">Total: $ %s</string>
+    <string name="filter">Filter</string>
 </resources>

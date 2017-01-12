@@ -1,20 +1,28 @@
-package com.oliveira.classificados;
+package com.oliveira.classificados.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.oliveira.classificados.R;
+import com.oliveira.classificados.activity.DetailActivity;
+import com.oliveira.classificados.bean.ItemAd;
 
 import java.util.List;
 
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ItemHolder> {
 
-    private List<ItemAd> mItems;
+    private final Context mContext;
+    private final List<ItemAd> mItems;
 
-    public ListAdapter(List<ItemAd> items) {
+    public ListAdapter(Context context, List<ItemAd> items) {
+        mContext = context;
         mItems = items;
     }
 
@@ -26,10 +34,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ItemHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ItemHolder holder, int position) {
+    public void onBindViewHolder(final ItemHolder holder, int position) {
         final ItemAd item = mItems.get(position);
+        holder.ivImage.setImageResource(R.mipmap.ic_launcher);
         holder.tvTitle.setText(item.getTitle());
         holder.tvDescription.setText(item.getDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra(DetailActivity.ITEM_KEY, item);
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -41,10 +60,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ItemHolder> {
 
         TextView tvTitle;
         TextView tvDescription;
+        ImageView ivImage;
 
         public ItemHolder(View itemView) {
             super(itemView);
 
+            ivImage = (ImageView) itemView.findViewById(R.id.iv_image);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
             tvDescription = (TextView) itemView.findViewById(R.id.tv_description);
         }

@@ -1,5 +1,6 @@
-package com.oliveira.classificados;
+package com.oliveira.classificados.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,8 +8,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oliveira.classificados.R;
+import com.oliveira.classificados.bean.ItemAd;
+
+import java.io.Serializable;
+
 public class DetailActivity extends BaseActivity {
 
+    public static final String ITEM_KEY = "ITEM_KEY";
     private ImageView mIvImage;
     private TextView mTvTitle;
     private TextView mTvDescription;
@@ -21,10 +28,16 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.activity_detail);
         init();
 
-        mIvImage.setImageResource(R.drawable.google_pixel);
-        mTvTitle.setText("Iphone 6 64GB");
-        mTvDescription.setText("Muito Bom!!");
-        mTvTotal.setText(getString(R.string.total_label, "3.800,90"));
+        final Intent intent = getIntent();
+        if (intent != null) {
+            final ItemAd item = (ItemAd) intent.getSerializableExtra(ITEM_KEY);
+
+            mIvImage.setImageResource(R.drawable.google_pixel);
+            mTvTitle.setText(item.getTitle());
+            mTvDescription.setText(item.getDescription());
+            mTvTotal.setText(getString(R.string.total_label, "3.800,90"));
+        }
+
     }
 
     private void init() {

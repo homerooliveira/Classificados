@@ -1,11 +1,12 @@
-package com.oliveira.classificados;
+package com.oliveira.classificados.activity;
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -18,6 +19,10 @@ public class BaseActivity extends Activity {
 //        Log.w(TAG, "Warnning");
 //        Log.e(TAG, "Error" );
 
+    }
+
+    protected SharedPreferences getPref() {
+        return getPreferences(MODE_PRIVATE);
     }
 
     @Override
