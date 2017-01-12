@@ -2,12 +2,15 @@ package com.oliveira.classificados.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.oliveira.classificados.adapter.ListAdapter;
@@ -28,7 +31,6 @@ public class ListActivity extends BaseActivity {
 
         setContentView(R.layout.activiy_list);
         setupToolbar(R.string.list_activity_title);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         init();
 
         final List<ItemAd> items = new ArrayList<>();
@@ -42,6 +44,28 @@ public class ListActivity extends BaseActivity {
 
         final ListAdapter adapter = new ListAdapter(this, items);
         mRvList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void setupToolbar(@StringRes int title) {
+        super.setupToolbar(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        final Spinner spinner = (Spinner) findViewById(R.id.sp_category);
+
+        final List<Category> items = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            final Category category = new Category(String.valueOf(i), String.format("Categoria %s", i));
+            items.add(category);
+        }
+
+        final ArrayAdapter<Category> adapter = new ArrayAdapter<>(
+                getSupportActionBar().getThemedContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                items);
+
+        spinner.setAdapter(adapter);
     }
 
     private void init() {
