@@ -1,6 +1,7 @@
 package com.oliveira.classificados.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,6 +29,9 @@ import java.util.List;
 public class ListActivity extends BaseActivity {
 
     private RecyclerView mRvList;
+    private ListAdapter mAdapter;
+    private List<ItemAd> mItems;
+    private ProgressBar mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +39,52 @@ public class ListActivity extends BaseActivity {
 
         setContentView(R.layout.activiy_list);
         setupToolbar(R.string.list_activity_title);
+
         init();
 
-        final List<ItemAd> items = new ArrayList<>();
+        mItems = new ArrayList<>();
+        mAdapter = new ListAdapter(this, mItems);
+        mRvList.setAdapter(mAdapter);
+
+        mRvList.setVisibility(View.INVISIBLE);
+        mSpinner.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5 * 1000);// 5 seg
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loadData();
+
+            }
+        }).start();
+
+
+    }
+
+
+    private void loadData() {
+
         for (int i = 0; i < 50; i++) {
             final String title = String.format("Item %s", i);
             final String description =
                     String.format("Descrição do meu item da minha lista de Recyclerview do Curso de Android da Pucrs %s", i);
             final ItemAd itemAd = new ItemAd(null, title, description);
-            items.add(itemAd);
+            mItems.add(itemAd);
         }
 
-        final ListAdapter adapter = new ListAdapter(this, items);
-        mRvList.setAdapter(adapter);
+        //Mudanças na view devem chamadas na uithread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                replaceView(mSpinner, mRvList);
+            }
+        });
     }
 
     @Override
@@ -73,6 +111,7 @@ public class ListActivity extends BaseActivity {
 
     private void init() {
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
+        mSpinner = (ProgressBar) findViewById(R.id.spinner);
     }
 
     @Override
@@ -125,6 +164,17 @@ public class ListActivity extends BaseActivity {
                 }).show();
 
                 break;
+            case R.id.action_call:
+                final Intent intent =
+                        new Intent(Intent.ACTION_CALL, Uri.parse("tel:5505195848693"));
+                startActivity(intent);
+                break;
+
+            case R.id.action_browser:
+                final Intent intent2 =
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+                startActivity(intent2);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -137,4 +187,6 @@ public class ListActivity extends BaseActivity {
                 .setPositiveButton(R.string.ok, null)
                 .show();
     }
+
+
 }

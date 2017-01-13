@@ -12,4 +12,6 @@
     <string name="show_toast">Show Toast</string>
     <string name="ok">Ok</string>
     <string name="my_mensage">My msg.</string>
+    <string name="make_call">Make Call</string>
+    <string name="open_browser">Open Browser</string>
 </resources>
