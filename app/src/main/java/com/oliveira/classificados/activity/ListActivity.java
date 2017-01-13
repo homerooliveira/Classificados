@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +33,7 @@ public class ListActivity extends BaseActivity {
     private ListAdapter mAdapter;
     private List<ItemAd> mItems;
     private ProgressBar mSpinner;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,37 @@ public class ListActivity extends BaseActivity {
 
             }
         }).start();
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2 * 1000);// 2 segs
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+                mItems.add(0, new ItemAd(null, "Novo Item", "Minha descriçaõ "+
+                "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyItemRangeChanged(0, mItems.size());
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+            }
+        });
 
 
     }
@@ -112,6 +145,7 @@ public class ListActivity extends BaseActivity {
     private void init() {
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
         mSpinner = (ProgressBar) findViewById(R.id.spinner);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
     }
 
     @Override
