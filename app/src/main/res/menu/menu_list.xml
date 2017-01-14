@@ -19,5 +19,15 @@
         android:icon="@mipmap/ic_launcher"
         android:title="@string/show_snackbar"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_call"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/make_call"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_browser"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/open_browser"
+        app:showAsAction="never"/>
 
 </menu>

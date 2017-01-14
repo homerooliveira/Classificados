@@ -9,12 +9,33 @@
 
     <include layout="@layout/chronometer"/>
 
-    <com.oliveira.classificados.view.LinearRecyclerView
-        android:id="@+id/rv_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:drawable/dialog_holo_light_frame"/>
+        android:layout_weight="2"
+        android:background="@android:drawable/dialog_holo_light_frame">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.oliveira.classificados.view.LinearRecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
 
     <Button
         android:layout_width="match_parent"
