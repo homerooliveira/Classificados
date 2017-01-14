@@ -8,8 +8,10 @@
     <string name="filter_activity_title">Filtro</string>
     <string name="detail_activity_title">Detalhes</string>
     <string name="change_view">Alterar view</string>
-    <string name="show_snackbar">Show Snackbar</string>
-    <string name="show_toast">Show Toast</string>
+    <string name="show_snackbar">Mostra Snackbar</string>
+    <string name="show_toast">Mostra Toast</string>
     <string name="ok">Ok</string>
-    <string name="my_mensage">My msg.</string>
+    <string name="my_mensage">Minha mensagem</string>
+    <string name="save">Salvar</string>
+    <string name="show">Mostrar</string>
 </resources>
