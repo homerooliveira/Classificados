@@ -78,20 +78,22 @@ public class ListActivity extends BaseActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mItems.add(0, new ItemAd(null, "Novo Item", "Minha descriçaõ " +
+                                        "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
+
+                                mAdapter.notifyItemRangeChanged(0, mItems.size());
+                                mSwipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+
                     }
+
                 }).start();
 
-                mItems.add(0, new ItemAd(null, "Novo Item", "Minha descriçaõ "+
-                "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyItemRangeChanged(0, mItems.size());
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
 
             }
         });
