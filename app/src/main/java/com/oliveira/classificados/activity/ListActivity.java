@@ -1,10 +1,17 @@
 package com.oliveira.classificados.activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AlertDialogLayout;
@@ -34,6 +41,8 @@ public class ListActivity extends BaseActivity {
     private List<ItemAd> mItems;
     private ProgressBar mSpinner;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private static final int REQUEST_PERMISSION_CALL_PHONE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,9 +210,7 @@ public class ListActivity extends BaseActivity {
 
                 break;
             case R.id.action_call:
-                final Intent intent =
-                        new Intent(Intent.ACTION_CALL, Uri.parse("tel:5505195848693"));
-                startActivity(intent);
+                makeCall();
                 break;
 
             case R.id.action_browser:
@@ -216,6 +223,24 @@ public class ListActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void makeCall() {
+        // Já tem a permissão
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                == PackageManager.PERMISSION_GRANTED) {
+            final Intent intent =
+                    new Intent(Intent.ACTION_CALL, Uri.parse("tel:5505195848693"));
+            startActivity(intent);
+            // Android pedi a permissão para o usuário
+        } else if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.CALL_PHONE)) {
+
+            String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CALL_PHONE);
+        } else {
+            Toast.makeText(this, R.string.request_permission, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void showDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name)
@@ -224,5 +249,21 @@ public class ListActivity extends BaseActivity {
                 .show();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if ((grantResults.length > 0)) {
+            switch (requestCode) {
+                case REQUEST_PERMISSION_CALL_PHONE:
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                        makeCall();
+                    }
 
+                    break;
+
+            }
+
+        }
+
+    }
 }

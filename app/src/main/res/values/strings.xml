@@ -16,4 +16,5 @@
     <string name="show">Show</string>
     <string name="make_call">Make Call</string>
     <string name="open_browser">Open Browser</string>
+    <string name="request_permission">Enable CALL Phone  permission on your config.</string>
 </resources>
