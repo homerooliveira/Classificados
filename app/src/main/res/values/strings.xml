@@ -17,4 +17,6 @@
     <string name="make_call">Make Call</string>
     <string name="open_browser">Open Browser</string>
     <string name="request_permission">Enable CALL Phone  permission on your config.</string>
+    <string name="request_sms">Request SMS</string>
+    <string name="request_sms_enabled">Request SMS Enabled</string>
 </resources>

@@ -17,4 +17,6 @@
     <string name="save">Salvar</string>
     <string name="show">Mostrar</string>
     <string name="request_permission">Ative a permissão de CALL PHONE na suas permissões.</string>
+    <string name="request_sms">Solicitar SMS</string>
+    <string name="request_sms_enabled">Request SMS Enabled</string>
 </resources>

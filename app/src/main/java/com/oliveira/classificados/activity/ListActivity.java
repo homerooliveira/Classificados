@@ -36,6 +36,7 @@ import java.util.List;
 
 public class ListActivity extends BaseActivity {
 
+    private static final int REQUEST_PERMISSION_SMS = 1;
     private RecyclerView mRvList;
     private ListAdapter mAdapter;
     private List<ItemAd> mItems;
@@ -218,9 +219,31 @@ public class ListActivity extends BaseActivity {
                         new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
                 startActivity(intent2);
                 break;
+            case R.id.action_request_sms:
+                requestSms();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestSms() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
+                == PackageManager.PERMISSION_DENIED
+                ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+                        == PackageManager.PERMISSION_DENIED) {
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_SMS)
+                    &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.RECEIVE_SMS)) {
+
+                String[] permissions = new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS};
+                ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_SMS);
+            }
+        }
     }
 
     private void makeCall() {
@@ -255,10 +278,16 @@ public class ListActivity extends BaseActivity {
         if ((grantResults.length > 0)) {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CALL_PHONE:
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         makeCall();
                     }
 
+                    break;
+
+                case REQUEST_PERMISSION_SMS:
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                            && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                        Toast.makeText(this, R.string.request_sms_enabled, Toast.LENGTH_SHORT).show();
                     break;
 
             }

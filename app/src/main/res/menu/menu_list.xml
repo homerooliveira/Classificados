@@ -30,4 +30,11 @@
         android:title="@string/open_browser"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_request_sms"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/request_sms"
+        app:showAsAction="never"/>
+
+
 </menu>
