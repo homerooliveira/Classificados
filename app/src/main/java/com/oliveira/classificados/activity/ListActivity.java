@@ -1,11 +1,14 @@
 package com.oliveira.classificados.activity;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -29,9 +32,11 @@ import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.Category;
 import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.receiver.AlarmBroadcastReceiver;
 import com.oliveira.classificados.task.LoadDataTask;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ListActivity extends BaseActivity {
@@ -73,6 +78,7 @@ public class ListActivity extends BaseActivity {
             }
         });
 
+        createAlarm();
 
     }
 
@@ -239,6 +245,27 @@ public class ListActivity extends BaseActivity {
 
         }
 
+    }
+
+    private void createAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        final Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        intent.putExtra(AlarmBroadcastReceiver.MSG_KEY, "ALERT!!!");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_MONTH, 17);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 25);
+
+
+        //RTC é o tempo corrente
+        alarmManager.setRepeating(
+                AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                60000,
+                pendingIntent);
     }
 
     class AddItemTask extends AsyncTask<String, Void, Boolean> {
