@@ -2,8 +2,10 @@ package com.oliveira.classificados.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AlertDialogLayout;
@@ -30,6 +33,7 @@ import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.Category;
 import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.service.ToastService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +112,14 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String msg = intent.getStringExtra(ToastService.KEY_MSG);
+                        Toast.makeText(ListActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                }, new IntentFilter(ToastService.ACTION_FILTER));
     }
 
 
