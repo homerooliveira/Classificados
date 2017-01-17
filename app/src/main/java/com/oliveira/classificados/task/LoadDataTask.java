@@ -1,4 +1,4 @@
-package com.oliveira.classificados.tasks;
+package com.oliveira.classificados.task;
 
 
 import android.os.AsyncTask;

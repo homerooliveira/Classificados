@@ -1,24 +1,18 @@
 package com.oliveira.classificados.activity;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,8 +29,7 @@ import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.Category;
 import com.oliveira.classificados.bean.ItemAd;
-import com.oliveira.classificados.service.ToastService;
-import com.oliveira.classificados.tasks.LoadDataTask;
+import com.oliveira.classificados.task.LoadDataTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,58 +68,13 @@ public class ListActivity extends BaseActivity {
             @Override
             public void onRefresh() {
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2 * 1000);// 2 segs
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mItems.add(0, new ItemAd(null, "Novo Item", "Minha descriçaõ " +
-                                        "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
-
-                                mAdapter.notifyItemRangeChanged(0, mItems.size());
-                                mSwipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
-
-                    }
-
-                }).start();
-
+                new AddItemTask().execute("Novo Item");
 
             }
         });
 
 
     }
-
-
-//    private void loadData() {
-//
-//        for (int i = 0; i < 50; i++) {
-//            final String title = String.format("Item %s", i);
-//            final String description =
-//                    String.format("Descrição do meu item da minha lista de Recyclerview do Curso de Android da Pucrs %s", i);
-//            final ItemAd itemAd = new ItemAd(null, title, description);
-//            mItems.add(itemAd);
-//        }
-//
-//        //Mudanças na view devem chamadas na uithread
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mAdapter.notifyDataSetChanged();
-//                replaceView(mSpinner, mRvList);
-//            }
-//        });
-//    }
 
     @Override
     protected void setupToolbar(@StringRes int title) {
@@ -291,5 +239,35 @@ public class ListActivity extends BaseActivity {
 
         }
 
+    }
+
+    class AddItemTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                Thread.sleep(2 * 1000);// 2 segs
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return Boolean.FALSE;
+            }
+
+            final String title = strings[0];
+            mItems.add(0, new ItemAd(null, title, "Minha descriçaõ " +
+                    "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
+
+            return Boolean.TRUE;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+
+            if (success) {
+                mAdapter.notifyItemRangeChanged(0, mItems.size());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
     }
 }
