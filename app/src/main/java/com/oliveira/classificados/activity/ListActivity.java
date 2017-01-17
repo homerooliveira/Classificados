@@ -112,14 +112,7 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String msg = intent.getStringExtra(ToastService.KEY_MSG);
-                        Toast.makeText(ListActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                }, new IntentFilter(ToastService.ACTION_FILTER));
+
     }
 
 

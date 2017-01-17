@@ -1,8 +1,13 @@
 package com.oliveira.classificados.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,14 +15,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.oliveira.classificados.R;
+import com.oliveira.classificados.service.ToastService;
 
 
 public class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
     protected Toolbar mToolbar;
+    private BroadcastReceiver receiverToast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String msg = intent.getStringExtra(ToastService.KEY_MSG);
+            Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,7 @@ public class BaseActivity extends AppCompatActivity {
 //        Log.i(TAG, "Info");
 //        Log.w(TAG, "Warnning");
 //        Log.e(TAG, "Error" );
+
 
     }
 
@@ -76,6 +91,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
 
         Log.d(TAG, "onResume");
+
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(receiverToast, new IntentFilter(ToastService.ACTION_FILTER));
     }
 
     @Override
@@ -83,6 +101,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onPause();
 
         Log.d(TAG, "onPause");
+
+        // desregistrar o receiverToast boa pratica do android
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(receiverToast);
     }
 
     @Override
