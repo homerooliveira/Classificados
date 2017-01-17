@@ -63,12 +63,17 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void replaceView(View oldView, View newView) {
+    public void hideView(View view) {
         final Animation animOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+        view.setVisibility(View.INVISIBLE);
+        view.startAnimation(animOut);
+
+    }
+
+    public void replaceView(View oldView, View newView) {
         final Animation animIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
 
-        oldView.setVisibility(View.INVISIBLE);
-        oldView.startAnimation(animOut);
+        hideView(oldView);
 
         newView.setVisibility(View.VISIBLE);
         newView.startAnimation(animIn);

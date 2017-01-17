@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar_spinner"/>
+    <include layout="@layout/toolbar_spinner" />
 
-    <include layout="@layout/chronometer"/>
+    <include layout="@layout/chronometer" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,16 +23,32 @@
             <com.oliveira.classificados.view.LinearRecyclerView
                 android:id="@+id/rv_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:gravity="center"
+                android:text="@string/preparing_data" />
+
+        </LinearLayout>
 
     </FrameLayout>
 
@@ -41,6 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="filter"
-        android:text="@string/filter"/>
+        android:text="@string/filter" />
 
 </LinearLayout>

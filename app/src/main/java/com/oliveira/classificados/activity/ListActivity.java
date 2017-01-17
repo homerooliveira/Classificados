@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oliveira.classificados.adapter.ListAdapter;
@@ -34,6 +36,7 @@ import com.oliveira.classificados.R;
 import com.oliveira.classificados.bean.Category;
 import com.oliveira.classificados.bean.ItemAd;
 import com.oliveira.classificados.service.ToastService;
+import com.oliveira.classificados.tasks.LoadDataTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,7 @@ public class ListActivity extends BaseActivity {
     private List<ItemAd> mItems;
     private ProgressBar mSpinner;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private TextView mTvProgress;
     private static final int REQUEST_PERMISSION_CALL_PHONE = 0;
 
     @Override
@@ -65,19 +68,8 @@ public class ListActivity extends BaseActivity {
         mRvList.setVisibility(View.INVISIBLE);
         mSpinner.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5 * 1000);// 5 seg
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                loadData();
-
-            }
-        }).start();
+        final LoadDataTask loadDataTask = new LoadDataTask(mItems, mAdapter, this, mSpinner, mRvList, mTvProgress);
+        loadDataTask.execute();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -116,25 +108,25 @@ public class ListActivity extends BaseActivity {
     }
 
 
-    private void loadData() {
-
-        for (int i = 0; i < 50; i++) {
-            final String title = String.format("Item %s", i);
-            final String description =
-                    String.format("Descrição do meu item da minha lista de Recyclerview do Curso de Android da Pucrs %s", i);
-            final ItemAd itemAd = new ItemAd(null, title, description);
-            mItems.add(itemAd);
-        }
-
-        //Mudanças na view devem chamadas na uithread
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-                replaceView(mSpinner, mRvList);
-            }
-        });
-    }
+//    private void loadData() {
+//
+//        for (int i = 0; i < 50; i++) {
+//            final String title = String.format("Item %s", i);
+//            final String description =
+//                    String.format("Descrição do meu item da minha lista de Recyclerview do Curso de Android da Pucrs %s", i);
+//            final ItemAd itemAd = new ItemAd(null, title, description);
+//            mItems.add(itemAd);
+//        }
+//
+//        //Mudanças na view devem chamadas na uithread
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mAdapter.notifyDataSetChanged();
+//                replaceView(mSpinner, mRvList);
+//            }
+//        });
+//    }
 
     @Override
     protected void setupToolbar(@StringRes int title) {
@@ -162,6 +154,7 @@ public class ListActivity extends BaseActivity {
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
         mSpinner = (ProgressBar) findViewById(R.id.spinner);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        mTvProgress = (TextView) findViewById(R.id.tv_progress);
     }
 
     @Override

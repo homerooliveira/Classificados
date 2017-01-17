@@ -19,4 +19,6 @@
     <string name="request_permission">Ative a permissão de CALL PHONE na suas permissões.</string>
     <string name="request_sms">Solicitar SMS</string>
     <string name="request_sms_enabled">Request SMS Enabled</string>
+    <string name="preparing_data">Preparando  dados ...</string>
+    <string name="progress_data" formatted="false">Carregando dados %d%%...</string>
 </resources>

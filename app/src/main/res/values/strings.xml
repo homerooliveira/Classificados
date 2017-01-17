@@ -19,4 +19,7 @@
     <string name="request_permission">Enable CALL Phone  permission on your config.</string>
     <string name="request_sms">Request SMS</string>
     <string name="request_sms_enabled">Request SMS Enabled</string>
+    <string name="preparing_data">Preparing data ...</string>
+    <string name="progress_data" formatted="false">Loading data %d%%...</string>
+
 </resources>
