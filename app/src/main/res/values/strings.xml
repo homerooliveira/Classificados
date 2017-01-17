@@ -21,5 +21,6 @@
     <string name="request_sms_enabled">Request SMS Enabled</string>
     <string name="preparing_data">Preparing data ...</string>
     <string name="progress_data" formatted="false">Loading data %d%%...</string>
+    <string name="form_title_activity">New Item</string>
 
 </resources>

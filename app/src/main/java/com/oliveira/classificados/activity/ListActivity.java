@@ -268,6 +268,10 @@ public class ListActivity extends BaseActivity {
                 pendingIntent);
     }
 
+    public void newItem(View view) {
+        startActivity(new Intent(this, FormItemActivity.class));
+    }
+
     class AddItemTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
