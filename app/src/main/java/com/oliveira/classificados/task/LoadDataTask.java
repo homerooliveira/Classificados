@@ -1,13 +1,17 @@
 package com.oliveira.classificados.task;
 
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;
 
+import com.oliveira.classificados.App;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.activity.BaseActivity;
 import com.oliveira.classificados.adapter.ListAdapter;
+import com.oliveira.classificados.database.MyStore;
 import com.oliveira.classificados.database.model.ItemAd;
 
 import java.util.List;
@@ -64,7 +68,34 @@ public class LoadDataTask extends AsyncTask<Void, Integer, Boolean> {
             return Boolean.FALSE;
         }
 
-        for (int i = 1; i < 2; i++) {
+
+        final SQLiteDatabase db = App.getInstance(mContext).getDbHelper().getReadableDatabase();
+
+        try (Cursor cursor = db.query(MyStore.ItemAdTable.TABLE_NAME, null, null, null, null, null, null)) {
+
+            int i = 0;
+            int count = cursor.getCount();
+            while (cursor.moveToNext()) {
+                ItemAd itemAd = new ItemAd(cursor);
+                mItems.add(itemAd);
+
+                int progress = (i * 100) / count;
+                publishProgress(progress);
+
+                i++;
+
+                try {
+
+                    Thread.sleep(100);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        for (int i = 1; i < 1; i++) {
 
             try {
 
@@ -81,8 +112,7 @@ public class LoadDataTask extends AsyncTask<Void, Integer, Boolean> {
             final ItemAd itemAd = new ItemAd(null, title, description);
             mItems.add(itemAd);
 
-            int progress = (i * 100) / 50;
-            publishProgress(progress);
+
         }
 
 
@@ -99,7 +129,7 @@ public class LoadDataTask extends AsyncTask<Void, Integer, Boolean> {
 
             if (!mItems.isEmpty()) {
                 mContext.hideView(mTvProgress);
-            }else {
+            } else {
                 mTvProgress.setText(R.string.no_data);
             }
         }

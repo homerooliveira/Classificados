@@ -2,7 +2,6 @@ package com.oliveira.classificados.database;
 
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -18,7 +17,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(MyStrore.ItemAdTable.CREATE_TABLE);
+        db.execSQL(MyStore.ItemAdTable.CREATE_TABLE);
     }
 
     @Override

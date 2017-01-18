@@ -41,13 +41,15 @@ import java.util.List;
 public class ListActivity extends BaseActivity {
 
     private static final int REQUEST_PERMISSION_SMS = 1;
+    private static final int REQUEST_PERMISSION_CALL_PHONE = 0;
+
     private RecyclerView mRvList;
     private ListAdapter mAdapter;
     private List<ItemAd> mItems;
     private ProgressBar mSpinner;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mTvProgress;
-    private static final int REQUEST_PERMISSION_CALL_PHONE = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +64,6 @@ public class ListActivity extends BaseActivity {
         mAdapter = new ListAdapter(this, mItems);
         mRvList.setAdapter(mAdapter);
 
-        mRvList.setVisibility(View.INVISIBLE);
-        mSpinner.setVisibility(View.VISIBLE);
-
-        final LoadDataTask loadDataTask = new LoadDataTask(mItems, mAdapter, this, mSpinner, mRvList, mTvProgress);
-        loadDataTask.execute();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -79,7 +76,19 @@ public class ListActivity extends BaseActivity {
 
         createAlarm();
 
+        loadData();
     }
+
+    private void loadData() {
+        mItems.clear();
+
+        mRvList.setVisibility(View.INVISIBLE);
+        mSpinner.setVisibility(View.VISIBLE);
+
+        final LoadDataTask loadDataTask = new LoadDataTask(mItems, mAdapter, this, mSpinner, mRvList, mTvProgress);
+        loadDataTask.execute();
+    }
+
 
     @Override
     protected void setupToolbar(@StringRes int title) {
@@ -116,6 +125,16 @@ public class ListActivity extends BaseActivity {
 
         Category category = (Category) data.getSerializableExtra(FilterActivity.CATEGORY_KEY);
         Toast.makeText(this, category.getDescription(), Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        //LoaderManager -> melhor maneira de atualizar os dados e comusumir os dados neste caso.
+
+        loadData();
     }
 
     public void filter(View view) {

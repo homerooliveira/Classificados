@@ -2,6 +2,9 @@ package com.oliveira.classificados.database.model;
 
 
 import android.app.Activity;
+import android.database.Cursor;
+
+import com.oliveira.classificados.database.MyStore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +20,11 @@ public class ItemAd implements Serializable {
         mImage = image;
         mTitle = title;
         mDescription = description;
+    }
+
+    public ItemAd(Cursor cursor) {
+        mTitle = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.TITLE));
+        mDescription = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.DESCRIPTION));
     }
 
     public String getImage() {
