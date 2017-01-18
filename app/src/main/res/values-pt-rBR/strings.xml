@@ -22,4 +22,8 @@
     <string name="preparing_data">Preparando  dados ...</string>
     <string name="progress_data" formatted="false">Carregando dados %d%%...</string>
     <string name="form_title_activity">Novo Item</string>
+    <string name="hitn_title">Título do Anúncio</string>
+    <string name="hitn_description">Descrição do Anúncio</string>
+    <string name="hint_price">R$0,0</string>
+
 </resources>

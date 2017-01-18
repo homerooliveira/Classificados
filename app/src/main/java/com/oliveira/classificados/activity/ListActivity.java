@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -285,8 +284,8 @@ public class ListActivity extends BaseActivity {
             }
 
             final String title = strings[0];
-            mItems.add(0, new ItemAd(null, title, "Minha descriçaõ " +
-                    "do meu segundo item adicionado no meu layout da minha aplicaçãp"));
+            mItems.add(0, new ItemAd(null, title, "Minha descrição " +
+                    "do meu segundo item adicionado no meu layout da minha aplicação"));
 
             return Boolean.TRUE;
         }

@@ -17,8 +17,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         String msg = intent.getStringExtra(MSG_KEY);
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 
-        final Intent intent2 = new Intent(context, ListActivity.class);
-        context.startActivity(intent2);
+//        final Intent intent2 = new Intent(context, ListActivity.class);
+//        context.startActivity(intent2);
 
     }
 }

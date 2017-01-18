@@ -29,8 +29,8 @@ public class ToastService extends IntentService {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                String msgTxt = (String) msg.obj;
-                Toast.makeText(ToastService.this, msgTxt, Toast.LENGTH_SHORT).show();
+//                String msgTxt = (String) msg.obj;
+//                Toast.makeText(ToastService.this, msgTxt, Toast.LENGTH_SHORT).show();
             }
         };
 

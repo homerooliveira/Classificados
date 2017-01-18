@@ -22,5 +22,8 @@
     <string name="preparing_data">Preparing data ...</string>
     <string name="progress_data" formatted="false">Loading data %d%%...</string>
     <string name="form_title_activity">New Item</string>
+    <string name="hitn_title">Ad\'s Title</string>
+    <string name="hitn_description">Ad\'s description</string>
+    <string name="hint_price">$0,0</string>
 
 </resources>
