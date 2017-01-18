@@ -25,5 +25,6 @@
     <string name="hitn_title">Ad\'s Title</string>
     <string name="hitn_description">Ad\'s description</string>
     <string name="hint_price">$0,0</string>
+    <string name="edit">Edit</string>
 
 </resources>
