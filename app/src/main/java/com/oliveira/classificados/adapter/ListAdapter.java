@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.activity.DetailActivity;
-import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.database.model.ItemAd;
 
 import java.util.List;
 

@@ -1,7 +1,11 @@
-package com.oliveira.classificados.bean;
+package com.oliveira.classificados.database.model;
 
+
+import android.app.Activity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemAd implements Serializable {
 
@@ -37,5 +41,12 @@ public class ItemAd implements Serializable {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public static List<ItemAd> getList(Activity activity){
+        List<ItemAd> items = new ArrayList<>();
+
+
+        return items;
     }
 }

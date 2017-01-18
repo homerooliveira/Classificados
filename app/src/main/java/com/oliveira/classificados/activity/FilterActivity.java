@@ -9,7 +9,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.oliveira.classificados.R;
-import com.oliveira.classificados.bean.Category;
+import com.oliveira.classificados.database.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.activity.BaseActivity;
 import com.oliveira.classificados.adapter.ListAdapter;
-import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.database.model.ItemAd;
 
 import java.util.List;
 
@@ -57,18 +57,18 @@ public class LoadDataTask extends AsyncTask<Void, Integer, Boolean> {
     protected Boolean doInBackground(Void... voids) {
 
         try {
-            Thread.sleep(3 * 1000);// 3 segs
+            Thread.sleep(1 * 1000);// 3 segs
 
         } catch (InterruptedException e) {
             e.printStackTrace();
             return Boolean.FALSE;
         }
 
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i < 2; i++) {
 
             try {
 
-                Thread.sleep(5);
+                Thread.sleep(1);
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -96,7 +96,12 @@ public class LoadDataTask extends AsyncTask<Void, Integer, Boolean> {
         if (success) {
             mAdapter.notifyDataSetChanged();
             mContext.replaceView(mSpinner, mRvList);
-            mContext.hideView(mTvProgress);
+
+            if (!mItems.isEmpty()) {
+                mContext.hideView(mTvProgress);
+            }else {
+                mTvProgress.setText(R.string.no_data);
+            }
         }
 
     }

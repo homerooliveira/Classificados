@@ -1,7 +1,6 @@
 package com.oliveira.classificados.activity;
 
 import android.content.Intent;
-import android.nfc.FormatException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oliveira.classificados.R;
-import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.database.model.ItemAd;
 
 public class DetailActivity extends BaseActivity {
 

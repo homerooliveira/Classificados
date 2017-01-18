@@ -29,8 +29,8 @@ import android.widget.Toast;
 
 import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.R;
-import com.oliveira.classificados.bean.Category;
-import com.oliveira.classificados.bean.ItemAd;
+import com.oliveira.classificados.database.model.Category;
+import com.oliveira.classificados.database.model.ItemAd;
 import com.oliveira.classificados.receiver.AlarmBroadcastReceiver;
 import com.oliveira.classificados.task.LoadDataTask;
 

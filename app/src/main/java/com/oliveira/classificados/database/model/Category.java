@@ -1,4 +1,4 @@
-package com.oliveira.classificados.bean;
+package com.oliveira.classificados.database.model;
 
 
 import java.io.Serializable;
