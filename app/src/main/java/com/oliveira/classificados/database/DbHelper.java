@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "classificados.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public DbHelper(Context context) {
@@ -22,6 +22,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion == 1) {
+            upgrade1to2(db);
+        }
+    }
 
+    private void upgrade1to2(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + MyStore.ItemAdTable.TABLE_NAME
+                + " ADD  COLUMN " + MyStore.ItemAdTable.PRICE + " TEXT DEFAULT 0");
     }
 }

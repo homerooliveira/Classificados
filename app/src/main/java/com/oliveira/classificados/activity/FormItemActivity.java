@@ -21,6 +21,7 @@ public class FormItemActivity extends BaseActivity {
 
     private EditText mEtTitle;
     private EditText mEtDescription;
+    private EditText mEtPrice;
     private ItemAd mItemAd;
 
     @Override
@@ -50,6 +51,7 @@ public class FormItemActivity extends BaseActivity {
 
                 mEtTitle.setText(mItemAd.getTitle());
                 mEtDescription.setText(mItemAd.getDescription());
+                mEtPrice.setText(mItemAd.getPrice().toString());
             }
 
         }
@@ -60,15 +62,18 @@ public class FormItemActivity extends BaseActivity {
     private void init() {
         mEtTitle = (EditText) findViewById(R.id.et_title);
         mEtDescription = (EditText) findViewById(R.id.et_description);
+        mEtPrice = (EditText) findViewById(R.id.et_price);
     }
 
     public void save(View view) {
         String title = mEtTitle.getText().toString();
         String description = mEtDescription.getText().toString();
+        String price = mEtPrice.getText().toString();
 
         ContentValues values = new ContentValues();
         values.put(MyStore.ItemAdTable.TITLE, title);
         values.put(MyStore.ItemAdTable.DESCRIPTION, description);
+        values.put(MyStore.ItemAdTable.PRICE, price);
 
         SQLiteDatabase db = App.getInstance(this).getDbHelper().getWritableDatabase();
 

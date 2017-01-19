@@ -6,12 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.oliveira.classificados.App;
-import com.oliveira.classificados.activity.FormItemActivity;
 import com.oliveira.classificados.database.MyStore;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 public class ItemAd implements Serializable {
 
@@ -19,7 +17,7 @@ public class ItemAd implements Serializable {
     private String mTitle;
     private String mDescription;
     private String mGuid;
-
+    private BigDecimal mPrice;
 
     public ItemAd(String image, String title, String description) {
         mImage = image;
@@ -31,6 +29,9 @@ public class ItemAd implements Serializable {
         mGuid = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.GUID));
         mTitle = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.TITLE));
         mDescription = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.DESCRIPTION));
+        String price = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.PRICE));
+        if (price == null) price = "0";
+        mPrice = new BigDecimal(price);
     }
 
     public String getImage() {
@@ -63,6 +64,14 @@ public class ItemAd implements Serializable {
 
     public void setGuid(String mGuid) {
         this.mGuid = mGuid;
+    }
+
+    public BigDecimal getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(BigDecimal mPrice) {
+        this.mPrice = mPrice;
     }
 
     public static ItemAd getByGuid(Activity activity, String guid) {

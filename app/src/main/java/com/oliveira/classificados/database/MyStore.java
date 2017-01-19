@@ -12,12 +12,15 @@ public class MyStore {
         public static final String TABLE_NAME = "item_ad";
         public static final String TITLE = "title";
         public static final String DESCRIPTION = "description";
-        //         static final String PRICE = "price";
+        public static final String PRICE = "price";
+
+
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( " +
                         GUID + " TEXT PRIMARY KEY, " +
                         TITLE + " TEXT, " +
-                        DESCRIPTION + " TEXT "
+                        DESCRIPTION + " TEXT, " +
+                        PRICE + " TEXT "
                         + ")";
     }
 

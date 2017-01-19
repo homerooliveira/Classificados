@@ -47,7 +47,7 @@ public class DetailActivity extends BaseActivity {
             mIvImage.setImageResource(R.drawable.google_pixel);
             mTvTitle.setText(mItemAd.getTitle());
             mTvDescription.setText(mItemAd.getDescription());
-            mTvTotal.setText(getString(R.string.total_label, "3.800,90"));
+            mTvTotal.setText(getString(R.string.total_label, mItemAd.getPrice()));
         }
     }
 
