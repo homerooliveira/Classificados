@@ -3,6 +3,7 @@ package com.oliveira.classificados.database.model;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.oliveira.classificados.App;
 import com.oliveira.classificados.activity.FormItemActivity;
@@ -18,6 +19,7 @@ public class ItemAd implements Serializable {
     private String mTitle;
     private String mDescription;
     private String mGuid;
+
 
     public ItemAd(String image, String title, String description) {
         mImage = image;
@@ -63,17 +65,18 @@ public class ItemAd implements Serializable {
         this.mGuid = mGuid;
     }
 
-    public static List<ItemAd> getList(Activity activity){
-        List<ItemAd> items = new ArrayList<>();
+    public static ItemAd getByGuid(Activity activity, String guid) {
+        if (guid == null) return null;
 
+        final SQLiteDatabase db = App.getInstance(activity).getDbHelper().getWritableDatabase();
+        try (Cursor cursor = db.query(MyStore.ItemAdTable.TABLE_NAME, null,
+                MyStore.ItemAdTable.GUID + " = ?", new String[]{guid},
+                null, null, null, "1")) {
+            if (cursor.moveToNext()) {
+                return new ItemAd(cursor);
+            }
+            return null;
+        }
 
-        return items;
-    }
-
-    public static ItemAd getByGuid(Activity activity) {
-        App.getInstance(activity).getDbHelper().getWritableDatabase();
-
-
-        return null;
     }
 }

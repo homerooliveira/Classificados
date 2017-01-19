@@ -40,11 +40,11 @@ public class FormItemActivity extends BaseActivity {
         final Intent intent = getIntent();
         if (intent != null) {
             String itemGuid = intent.getStringExtra(MyStore.ItemAdTable.GUID);
-            Log.d(TAG, itemGuid);
 
-            mItemAd = ItemAd.getByGuid(this);
+            mItemAd = ItemAd.getByGuid(this, itemGuid);
 
             if (mItemAd != null) {
+                Log.d(TAG, itemGuid);
                 getSupportActionBar().setTitle(mItemAd.getTitle());
 
 
@@ -75,12 +75,17 @@ public class FormItemActivity extends BaseActivity {
         if (mItemAd == null) {
             values.put(MyStore.ItemAdTable.GUID, UUID.randomUUID().toString());
             db.insert(MyStore.ItemAdTable.TABLE_NAME, null, values);
-        }else {
+        } else {
+            db.update(MyStore.ItemAdTable.TABLE_NAME, values,
+                    MyStore.ItemAdTable.GUID + " = ?", new String[]{mItemAd.getGuid()});
 
+            ItemAd itemAd = ItemAd.getByGuid(this, mItemAd.getGuid());
+            final Intent intent = new Intent();
+            intent.putExtra(DetailActivity.ITEM_KEY, itemAd);
+
+            setResult(RESULT_OK, intent);
         }
 
-
-        startActivity(new Intent(this, FormItemActivity.class));
         finish();
     }
 }

@@ -27,5 +27,6 @@
     <string name="hint_price">R$0,0</string>
     <string name="edit">Editar</string>
     <string name="no_data">Nenhum dado encontrado.</string>
+    <string name="delete">Remover</string>
 
 </resources>

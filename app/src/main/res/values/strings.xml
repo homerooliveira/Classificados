@@ -27,5 +27,6 @@
     <string name="hint_price">$0,0</string>
     <string name="edit">Edit</string>
     <string name="no_data">No data</string>
+    <string name="delete">Delete</string>
 
 </resources>
