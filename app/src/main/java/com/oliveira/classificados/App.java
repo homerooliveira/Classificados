@@ -23,7 +23,7 @@ public class App extends Application {
     public DbHelper getDbHelper() {
         return mDbHelper;
     }
-    public static App getInstance(BaseActivity activity){
+    public static App getInstance(Activity activity){
         return (App) activity.getApplication();
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oliveira.classificados.R;
+import com.oliveira.classificados.database.MyStore;
 import com.oliveira.classificados.database.model.ItemAd;
 
 public class DetailActivity extends BaseActivity {
@@ -20,6 +21,7 @@ public class DetailActivity extends BaseActivity {
     private TextView mTvTitle;
     private TextView mTvDescription;
     private TextView mTvTotal;
+    private ItemAd mItemAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,11 @@ public class DetailActivity extends BaseActivity {
 
         final Intent intent = getIntent();
         if (intent != null) {
-            final ItemAd item = (ItemAd) intent.getSerializableExtra(ITEM_KEY);
+            mItemAd = (ItemAd) intent.getSerializableExtra(ITEM_KEY);
 
             mIvImage.setImageResource(R.drawable.google_pixel);
-            mTvTitle.setText(item.getTitle());
-            mTvDescription.setText(item.getDescription());
+            mTvTitle.setText(mItemAd.getTitle());
+            mTvDescription.setText(mItemAd.getDescription());
             mTvTotal.setText(getString(R.string.total_label, "3.800,90"));
         }
 
@@ -73,6 +75,7 @@ public class DetailActivity extends BaseActivity {
         switch (item.getItemId()){
             case R.id.action_edit:
                 final Intent intent = new Intent(this, FormItemActivity.class);
+                intent.putExtra(MyStore.ItemAdTable.GUID, mItemAd.getGuid());
                 startActivity(intent);
                 break;
         }

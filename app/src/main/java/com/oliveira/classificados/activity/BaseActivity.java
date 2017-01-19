@@ -23,7 +23,7 @@ import com.oliveira.classificados.service.ToastService;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private final String TAG = getClass().getSimpleName();
+    protected final String TAG = getClass().getSimpleName();
     protected Toolbar mToolbar;
     private BroadcastReceiver receiverToast = new BroadcastReceiver() {
         @Override

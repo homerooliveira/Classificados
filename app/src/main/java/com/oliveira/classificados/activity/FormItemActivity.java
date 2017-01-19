@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import com.oliveira.classificados.App;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.database.MyStore;
+import com.oliveira.classificados.database.model.ItemAd;
 
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ public class FormItemActivity extends BaseActivity {
 
     private EditText mEtTitle;
     private EditText mEtDescription;
+    private ItemAd mItemAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,25 @@ public class FormItemActivity extends BaseActivity {
 
         init();
 
+        final Intent intent = getIntent();
+        if (intent != null) {
+            String itemGuid = intent.getStringExtra(MyStore.ItemAdTable.GUID);
+            Log.d(TAG, itemGuid);
+
+            mItemAd = ItemAd.getByGuid(this);
+
+            if (mItemAd != null) {
+                getSupportActionBar().setTitle(mItemAd.getTitle());
+
+
+                mEtTitle.setText(mItemAd.getTitle());
+                mEtDescription.setText(mItemAd.getDescription());
+            }
+
+        }
+
     }
+
 
     private void init() {
         mEtTitle = (EditText) findViewById(R.id.et_title);
@@ -46,12 +67,18 @@ public class FormItemActivity extends BaseActivity {
         String description = mEtDescription.getText().toString();
 
         ContentValues values = new ContentValues();
-        values.put(MyStore.ItemAdTable.GUID, UUID.randomUUID().toString());
         values.put(MyStore.ItemAdTable.TITLE, title);
         values.put(MyStore.ItemAdTable.DESCRIPTION, description);
 
         SQLiteDatabase db = App.getInstance(this).getDbHelper().getWritableDatabase();
-        db.insert(MyStore.ItemAdTable.TABLE_NAME, null, values);
+
+        if (mItemAd == null) {
+            values.put(MyStore.ItemAdTable.GUID, UUID.randomUUID().toString());
+            db.insert(MyStore.ItemAdTable.TABLE_NAME, null, values);
+        }else {
+
+        }
+
 
         startActivity(new Intent(this, FormItemActivity.class));
         finish();

@@ -4,6 +4,8 @@ package com.oliveira.classificados.database.model;
 import android.app.Activity;
 import android.database.Cursor;
 
+import com.oliveira.classificados.App;
+import com.oliveira.classificados.activity.FormItemActivity;
 import com.oliveira.classificados.database.MyStore;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ public class ItemAd implements Serializable {
     private String mImage;
     private String mTitle;
     private String mDescription;
+    private String mGuid;
 
     public ItemAd(String image, String title, String description) {
         mImage = image;
@@ -23,6 +26,7 @@ public class ItemAd implements Serializable {
     }
 
     public ItemAd(Cursor cursor) {
+        mGuid = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.GUID));
         mTitle = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.TITLE));
         mDescription = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.DESCRIPTION));
     }
@@ -51,10 +55,25 @@ public class ItemAd implements Serializable {
         mDescription = description;
     }
 
+    public String getGuid() {
+        return mGuid;
+    }
+
+    public void setGuid(String mGuid) {
+        this.mGuid = mGuid;
+    }
+
     public static List<ItemAd> getList(Activity activity){
         List<ItemAd> items = new ArrayList<>();
 
 
         return items;
+    }
+
+    public static ItemAd getByGuid(Activity activity) {
+        App.getInstance(activity).getDbHelper().getWritableDatabase();
+
+
+        return null;
     }
 }
