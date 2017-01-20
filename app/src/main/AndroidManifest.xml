@@ -43,9 +43,22 @@
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name" />
 
+        <service android:name=".service.FCMInstanceidService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".service.FCMMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsTxciZdn-yje9Wt5-Uxphg-3iGi2if3U" />
+
     </application>
 
 </manifest>

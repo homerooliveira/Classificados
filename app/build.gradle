@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "com.oliveira.classificados"
+        applicationId "com.busata.classificados"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -32,4 +32,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.firebase:firebase-core:9.6.1'
 }
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "167814058682",
+    "firebase_url": "https://classificados-adca1.firebaseio.com",
+    "project_id": "classificados-adca1",
+    "storage_bucket": "classificados-adca1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167814058682:android:7a73776d78bc2e34",
+        "android_client_info": {
+          "package_name": "com.busata.classificados"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167814058682-km0pia2cqj99ak4a82foep5bcoock719.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQcGlxak0d7IjEJXfhx33dlCbYwxJUv-M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
