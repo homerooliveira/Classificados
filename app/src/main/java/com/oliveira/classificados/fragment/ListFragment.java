@@ -148,11 +148,12 @@ public class ListFragment extends Fragment {
                                 mItems.add(itemAd);
                             }
                             mAdapter.notifyDataSetChanged();
-                            ((BaseActivity) getActivity()).replaceView(mTvProgress, mRvList);
+                            ((BaseActivity) getActivity()).replaceView(mSpinner, mRvList);
                             ((BaseActivity) getActivity()).hideView(mTvProgress);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
 
                     }
 

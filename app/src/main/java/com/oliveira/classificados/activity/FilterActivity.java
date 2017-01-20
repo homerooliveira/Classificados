@@ -8,17 +8,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.database.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends BaseActivity {
+public class FilterActivity extends BaseActivity implements OnMapReadyCallback {
 
     public static final String CATEGORY_KEY = "CATEGORY_KEY";
     private Spinner mSpCategory;
     private String mText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +47,29 @@ public class FilterActivity extends BaseActivity {
         String categoryId = getPref().getString(CATEGORY_KEY, null);
         if (categoryId != null) {
             for (int i = 0; i < items.size(); i++) {
-                if (categoryId.equals(items.get(i).getId())){
+                if (categoryId.equals(items.get(i).getId())) {
                     mSpCategory.setSelection(i);
                     break;
                 }
             }
         }
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(this);
+
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        LatLng sydney = new LatLng(-34, 151);
+        MarkerOptions marker = new MarkerOptions().position(sydney).title("Marker in Sydney");
+        googleMap.addMarker(marker);
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        googleMap.setMinZoomPreference(10);
     }
 
     private void init() {
@@ -95,4 +119,6 @@ public class FilterActivity extends BaseActivity {
     public void save(View view) {
         mText = "Meu Texto";
     }
+
+
 }
