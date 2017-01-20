@@ -11,13 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +28,10 @@ import android.widget.Toast;
 
 import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.R;
+import com.oliveira.classificados.adapter.TabAdapter;
 import com.oliveira.classificados.database.model.Category;
 import com.oliveira.classificados.database.model.ItemAd;
+import com.oliveira.classificados.fragment.ListFragment;
 import com.oliveira.classificados.receiver.AlarmBroadcastReceiver;
 import com.oliveira.classificados.task.LoadDataTask;
 
@@ -40,15 +41,13 @@ import java.util.List;
 
 public class ListActivity extends BaseActivity {
 
+    public static final String IS_LOCAL = "is_local";
     private static final int REQUEST_PERMISSION_SMS = 1;
     private static final int REQUEST_PERMISSION_CALL_PHONE = 0;
 
-    private RecyclerView mRvList;
-    private ListAdapter mAdapter;
-    private List<ItemAd> mItems;
-    private ProgressBar mSpinner;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private TextView mTvProgress;
+    private TabAdapter mTabAdapter;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
 
     @Override
@@ -60,33 +59,25 @@ public class ListActivity extends BaseActivity {
 
         init();
 
-        mItems = new ArrayList<>();
-        mAdapter = new ListAdapter(this, mItems);
-        mRvList.setAdapter(mAdapter);
+        mTabAdapter = new TabAdapter(getSupportFragmentManager());
 
+        ListFragment fragment = new ListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_LOCAL, true);
+        fragment.setArguments(bundle);
+        mTabAdapter.add("Local", fragment);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+        fragment = new com.oliveira.classificados.fragment.ListFragment();
+        bundle = new Bundle();
+        bundle.putBoolean(IS_LOCAL, false);
+        fragment.setArguments(bundle);
+        mTabAdapter.add("Server", fragment);
 
-                new AddItemTask().execute("Novo Item");
-
-            }
-        });
+        mViewPager.setAdapter(mTabAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
         createAlarm();
 
-        loadData();
-    }
-
-    private void loadData() {
-        mItems.clear();
-
-        mRvList.setVisibility(View.INVISIBLE);
-        mSpinner.setVisibility(View.VISIBLE);
-
-        final LoadDataTask loadDataTask = new LoadDataTask(mItems, mAdapter, this, mSpinner, mRvList, mTvProgress);
-        loadDataTask.execute();
     }
 
 
@@ -113,10 +104,8 @@ public class ListActivity extends BaseActivity {
     }
 
     private void init() {
-        mRvList = (RecyclerView) findViewById(R.id.rv_list);
-        mSpinner = (ProgressBar) findViewById(R.id.spinner);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        mTvProgress = (TextView) findViewById(R.id.tv_progress);
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
     }
 
     @Override
@@ -137,10 +126,10 @@ public class ListActivity extends BaseActivity {
         loadData();
     }
 
-    public void filter(View view) {
-        final Intent intent = new Intent(this, FilterActivity.class);
-        startActivityForResult(intent, 0);
+    private void loadData() {
+        mTabAdapter.loadData();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,13 +141,13 @@ public class ListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_view:
-                if (mRvList.getLayoutManager() instanceof GridLayoutManager) {
-                    mRvList.setLayoutManager(new LinearLayoutManager(this));
-                } else {
-                    mRvList.setLayoutManager(new GridLayoutManager(this, 2));
-                }
-
-                mRvList.getAdapter().notifyItemRangeChanged(0, mRvList.getAdapter().getItemCount());
+//                if (mRvList.getLayoutManager() instanceof GridLayoutManager) {
+//                    mRvList.setLayoutManager(new LinearLayoutManager(this));
+//                } else {
+//                    mRvList.setLayoutManager(new GridLayoutManager(this, 2));
+//                }
+//
+//                mRvList.getAdapter().notifyItemRangeChanged(0, mRvList.getAdapter().getItemCount());
                 break;
 
             case R.id.action_toast:
@@ -290,33 +279,5 @@ public class ListActivity extends BaseActivity {
         startActivity(new Intent(this, FormItemActivity.class));
     }
 
-    class AddItemTask extends AsyncTask<String, Void, Boolean> {
 
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                Thread.sleep(2 * 1000);// 2 segs
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return Boolean.FALSE;
-            }
-
-            final String title = strings[0];
-            mItems.add(0, new ItemAd(null, title, "Minha descrição " +
-                    "do meu segundo item adicionado no meu layout da minha aplicação"));
-
-            return Boolean.TRUE;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            super.onPostExecute(success);
-
-            if (success) {
-                mAdapter.notifyItemRangeChanged(0, mItems.size());
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }
-    }
 }
