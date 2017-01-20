@@ -5,15 +5,24 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.oliveira.classificados.R;
 import com.oliveira.classificados.activity.BaseActivity;
 import com.oliveira.classificados.activity.FilterActivity;
@@ -22,6 +31,10 @@ import com.oliveira.classificados.activity.ListActivity;
 import com.oliveira.classificados.adapter.ListAdapter;
 import com.oliveira.classificados.database.model.ItemAd;
 import com.oliveira.classificados.task.LoadDataTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +51,10 @@ public class ListFragment extends Fragment {
     private TextView mTvProgress;
 
     private boolean mIsLocal;
+    private Button mBtnFilter;
+    private FloatingActionButton mBtnAdd;
+
+    private RequestQueue mRequestQueue;
 
 
     @Nullable
@@ -63,7 +80,24 @@ public class ListFragment extends Fragment {
             }
         });
 
+        this.mRequestQueue = Volley.newRequestQueue(getActivity());
+
+
         loadData();
+
+        mBtnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter();
+            }
+        });
+
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newItem();
+            }
+        });
 
         return view;
     }
@@ -74,6 +108,10 @@ public class ListFragment extends Fragment {
         mSpinner = (ProgressBar) v.findViewById(R.id.spinner);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         mTvProgress = (TextView) v.findViewById(R.id.tv_progress);
+        mBtnFilter = (Button) v.findViewById(R.id.btn_filter);
+        mBtnAdd = (FloatingActionButton) v.findViewById(R.id.btn_add);
+
+
     }
 
     public void loadData() {
@@ -93,6 +131,43 @@ public class ListFragment extends Fragment {
     }
 
     private void loadServerData() {
+
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                "http://orbisxp.com/api/list_items",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("VOLLEY", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject json = jsonArray.getJSONObject(i);
+
+                                ItemAd itemAd = new ItemAd(json);
+                                mItems.add(itemAd);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                            ((BaseActivity) getActivity()).replaceView(mTvProgress, mRvList);
+                            ((BaseActivity) getActivity()).hideView(mTvProgress);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VOLLEY", error.getMessage());
+                    }
+                }
+
+        );
+
+        mRequestQueue.add(request);
+
 
     }
 
@@ -133,7 +208,9 @@ public class ListFragment extends Fragment {
     }
 
     public void newItem() {
-        startActivity(new Intent(getActivity(), FormItemActivity.class));
+        Intent intent = new Intent(getActivity(), FormItemActivity.class);
+        intent.putExtra(IS_LOCAL, mIsLocal);
+        startActivity(intent);
     }
 
 }

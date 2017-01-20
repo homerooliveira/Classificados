@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.oliveira.classificados.App;
 import com.oliveira.classificados.database.MyStore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -32,6 +35,13 @@ public class ItemAd implements Serializable {
         String price = cursor.getString(cursor.getColumnIndex(MyStore.ItemAdTable.PRICE));
         if (price == null) price = "0";
         mPrice = new BigDecimal(price);
+    }
+
+    public ItemAd(JSONObject json) throws JSONException {
+        mTitle = json.getString("title");
+        mDescription = json.getString("description");
+        String price = json.getString("price");
+        mPrice = new BigDecimal(price == null ? "0" : price);
     }
 
     public String getImage() {
