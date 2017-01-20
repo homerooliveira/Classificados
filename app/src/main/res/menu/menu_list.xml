@@ -36,5 +36,11 @@
         android:title="@string/request_sms"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_request_contats"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Contatos"
+        app:showAsAction="never"/>
+
 
 </menu>

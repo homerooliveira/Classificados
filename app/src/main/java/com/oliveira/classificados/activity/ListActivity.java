@@ -5,9 +5,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -180,9 +183,45 @@ public class ListActivity extends BaseActivity {
             case R.id.action_request_sms:
                 requestSms();
                 break;
+            case R.id.action_request_contats:
+                requestContacts();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestContacts() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                == PackageManager.PERMISSION_DENIED
+                ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS)
+                        == PackageManager.PERMISSION_DENIED) {
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)
+                    &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_CONTACTS)) {
+
+                String[] permissions = new String[]{
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS
+                };
+                ActivityCompat.requestPermissions(this, permissions, 99);
+            }
+        } else {
+            try (
+                    Cursor c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
+            ) {
+                while (c.moveToNext()){
+                    String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
+
+                    Log.d(TAG, String.format("Nome : %s - ID: %s", name, id));
+                }
+            }
+        }
     }
 
     private void requestSms() {
@@ -247,6 +286,7 @@ public class ListActivity extends BaseActivity {
                             && grantResults[1] == PackageManager.PERMISSION_GRANTED)
                         Toast.makeText(this, R.string.request_sms_enabled, Toast.LENGTH_SHORT).show();
                     break;
+
 
             }
 
